@@ -5,9 +5,9 @@ This repository demonstrates the use of VGG16 with transfer learning to classify
 - **Dataset**: CIFAR-10 (Contains 60,000 32x32 color images in 10 classes)
 - **Model**: VGG16 (pre-trained on ImageNet)
 - **Task**: Image classification
-Fine-tuning: Transfer learning by unfreezing some layers of VGG16
-Data Augmentation: Applied to increase the variability of the training dataset
-Libraries: TensorFlow, Keras, NumPy, Matplotlib
+- **Fine-tuning**: Transfer learning by unfreezing some layers of VGG16
+- **Data Augmentation**: Applied to increase the variability of the training dataset
+- **Libraries**: TensorFlow, Keras, NumPy, Matplotlib
 
 ## Model Training and Evaluation
 The model starts by using the pre-trained weights from ImageNet for feature extraction. The top layers of the network are replaced with new layers suited for CIFAR-10 classification. The following steps are followed:
