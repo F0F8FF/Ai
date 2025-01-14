@@ -54,4 +54,4 @@ model.fit(datagen.flow(train_images.reshape(-1, 28, 28, 1), train_labels, batch_
 
 # 모델 평가
 test_loss, test_acc = model.evaluate(test_images, test_labels)
-print(f"Test accuracy: {test_acc}")
+print(f"Test accuracy: {test_acc:.2f}")
