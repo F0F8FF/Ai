@@ -10,3 +10,5 @@ The MNIST dataset consists of 60,000 28x28 grayscale images of handwritten digit
 - **CNN Model**: Convolutional Neural Network architecture using Conv2D, MaxPooling2D, and Dense layers.
 - **Data Augmentation**: Techniques like rotation, zoom, and shifting applied to training data for better model generalization.
 - **Early Stopping**: Training stops when the validation loss stops improving to prevent overfitting.
+
+Test Accuracy: 0.98
