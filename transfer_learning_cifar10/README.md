@@ -27,3 +27,5 @@ The model starts by using the pre-trained weights from ImageNet for feature extr
 3. Apply data augmentation to generate additional training images.
 4. Compile the model with Adam optimizer and categorical cross-entropy loss.
 5. Train the model for 30 epochs and evaluate the performance on the test set.
+
+Test Accuracy: 0.76
