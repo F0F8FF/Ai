@@ -14,3 +14,11 @@ The model uses transfer learning with the pre-trained EfficientNetB0 architectur
 ## Dataset
 - The dataset is divided into two directories: `train` and `validation`.
 - Images are resized to 224x224 pixels and normalized before training.
+
+## Requirements
+- Python 3.x
+- TensorFlow 2.x
+- NumPy
+- Matplotlib
+
+Final Test accuracy: 0.97
