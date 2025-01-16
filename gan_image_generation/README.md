@@ -2,8 +2,6 @@
 
 This project implements a Generative Adversarial Network (GAN) to generate handwritten digit images similar to those in the MNIST dataset. The project uses TensorFlow and Keras for model building and training.
 
----
-
 ## Features
 - Generates realistic MNIST-style digit images.
 - Utilizes a generator and discriminator for adversarial training.
