@@ -15,5 +15,5 @@ This project focuses on classifying movie reviews as positive or negative using 
 - **Pandas**: For data manipulation (if needed)
 - **NumPy**: For array operations
 
-리뷰: 이 영화는 정말 재미있었고 감동적이었습니다
-   감정 분석 결과: 긍정
+리뷰: 이 영화는 정말 재미있었고 감동적이었습니다   
+감정 분석 결과: 긍정
