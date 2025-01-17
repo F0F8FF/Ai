@@ -64,3 +64,4 @@ def predict_sentiment(review):
 test_review = "이 영화는 정말 재미있었고 감동적이었습니다"
 print(f"리뷰: {test_review}")
 print(f"감정 분석 결과: {predict_sentiment(test_review)}")
+
