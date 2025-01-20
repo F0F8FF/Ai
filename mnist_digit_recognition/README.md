@@ -21,4 +21,5 @@ Ensure you have the following installed:
 - Other dependencies in `requirements.txt` (see below for details)
 
 
-정확도: 99.07%
+
+Test accuracy: 99.07%
