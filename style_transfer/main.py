@@ -48,7 +48,7 @@ def calc_content_loss(gen_features, content_features):
     content_loss = torch.mean((gen_features[2] - content_features[2]) ** 2)
     return content_loss
 
-def style_transfer(content_path, style_path, num_steps=300):
+def style_transfer(content_path, style_path, num_steps=500):
     # 이미지 로드
     content_img = load_image(content_path)
     style_img = load_image(style_path)
@@ -59,8 +59,8 @@ def style_transfer(content_path, style_path, num_steps=300):
     # 모델 초기화
     model = VGG()
     
-    # 최적화 도구 설정
-    optimizer = optim.Adam([generated_img], lr=0.003)
+    # 최적화 도구 설정 (학습률 조정)
+    optimizer = optim.Adam([generated_img], lr=0.001)
     
     print("스타일 변환 시작...")
     for step in range(num_steps):
@@ -69,10 +69,10 @@ def style_transfer(content_path, style_path, num_steps=300):
         content_features = model(content_img)
         style_features = model(style_img)
         
-        # 손실 계산
+        # 손실 계산 (스타일 가중치 증가)
         style_loss = calc_style_loss(gen_features, style_features)
         content_loss = calc_content_loss(gen_features, content_features)
-        total_loss = content_loss + style_loss * 100  # style loss에 가중치
+        total_loss = content_loss + style_loss * 150  # 스타일 가중치 증가
         
         # 역전파
         optimizer.zero_grad()
