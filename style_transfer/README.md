@@ -2,7 +2,6 @@
 
 This project implements **Neural Style Transfer** using PyTorch and a pre-trained VGG19 model. It allows you to blend the content of one image with the artistic style of another to create a new, stylized image.
 
----
 
 ## Features
 
@@ -11,7 +10,6 @@ This project implements **Neural Style Transfer** using PyTorch and a pre-traine
 - **Pre-trained VGG19 Model:** Extracts features for style and content representation.
 - **Customizable Parameters:** Adjust the number of steps, style weight, and more.
 
----
 
 ## Prerequisites
 
