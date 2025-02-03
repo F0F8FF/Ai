@@ -66,7 +66,7 @@ if __name__ == "__main__":
     predictor = EmotionPredictor()
     
     # RAVDESS 데이터셋의 오디오 파일 경로
-    test_audio = "/Users/psh/Desktop/emotion_analysis/data/RAVDESS-emotional-speech-audio/Actor_02/03-01-01-01-01-01-02.wav"
+    test_audio = "경로"
     
     # 예측
     result = predictor.predict(test_audio)
