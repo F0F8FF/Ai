@@ -109,5 +109,5 @@ def train(data_path, batch_size=32, num_epochs=50, learning_rate=0.001):
         )
 
 if __name__ == "__main__":
-    data_path = "/Users/psh/Desktop/emotion_analysis/data/RAVDESS-emotional-speech-audio"
+    data_path = "경로"
     train(data_path)
