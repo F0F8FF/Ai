@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>뉴스 요약 시스템</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        textarea {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>뉴스 요약 시스템</h1>
+        <form method="POST">
+            <div>
+                <label for="url">뉴스 URL:</label>
+                <input type="text" name="url" id="url" style="width: 100%">
+            </div>
+            <div>
+                <label for="news_text">또는 뉴스 내용 직접 입력:</label>
+                <textarea name="news_text" id="news_text" rows="10"></textarea>
+            </div>
+            <input type="submit" value="요약하기">
+        </form>
+        
+        {% if extractive_summary %}
+        <div class="summary">
+            <h2>추출적 요약 결과:</h2>
+            {% for sent in extractive_summary %}
+            <p>{{ sent }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if abstractive_summary %}
+        <div class="summary">
+            <h2>추상적 요약 결과:</h2>
+            <p>{{ abstractive_summary }}</p>
+        </div>
+        {% endif %}
+        
+        {% if scores %}
+        <div class="summary">
+            <h2>평가 결과:</h2>
+            <p>ROUGE-1: {{ scores['rouge-1'] }}</p>
+            <p>ROUGE-2: {{ scores['rouge-2'] }}</p>
+            <p>ROUGE-L: {{ scores['rouge-l'] }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

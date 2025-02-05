@@ -1,0 +1,9 @@
+newspaper3k
+konlpy
+networkx
+scikit-learn
+numpy
+transformers
+torch
+flask
+rouge
