@@ -2,6 +2,7 @@
 
 This repository contains two implementations of Multi-Agent Proximal Policy Optimization (MAPPO) for the simple_spread environment in Multi-Particle Environment (MPE).
 
+
 ## Implementations
 
 ### 1. Stable Version (`multi_agent_ppo_stable.py`)
@@ -18,14 +19,13 @@ This repository contains two implementations of Multi-Agent Proximal Policy Opti
 - Higher variance in learning
 - Average reward: -20 to -25
 
-
 ## Architecture Comparison
 
 | Feature | Stable | Experimental |
 |---------|--------|--------------|
 | Shared Network Size | 128 units | 256 units |
 | Activation | Tanh | ReLU |
-| Normalization | LayerNorm | ReLU |
+| Normalization | LayerNorm | None |
 | Batch Size | 256 | 64 |
 | Learning Rate | 1e-4 | 3e-4 |
 | Gamma | 0.98 | 0.99 |
@@ -35,25 +35,6 @@ This repository contains two implementations of Multi-Agent Proximal Policy Opti
 | Entropy Coefficient | 0.02 | 0.01 |
 | PPO Epochs | 5 | 10 |
 | Max Grad Norm | 0.3 | 0.5 |
-
-## Hyperparameters
-
-### Stable Version
-- Gamma: 0.98
-- GAE Lambda: 0.92
-- PPO Clip: 0.15
-- Value Coefficient: 0.8
-- Entropy Coefficient: 0.02
-- PPO Epochs: 5
-
-### Experimental Version
-- Gamma: 0.99
-- GAE Lambda: 0.95
-- PPO Clip: 0.2
-- Value Coefficient: 0.5
-- Entropy Coefficient: 0.01
-- PPO Epochs: 10
-
 
 ## Performance
 
@@ -77,6 +58,7 @@ This repository contains two implementations of Multi-Agent Proximal Policy Opti
 - Generalized Advantage Estimation (GAE)
 - Reward normalization and clipping
 - Performance monitoring
+
 
 ## References
 
