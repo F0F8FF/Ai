@@ -38,17 +38,20 @@ This repository contains two implementations of Multi-Agent Proximal Policy Opti
 
 ## Performance
 
-### Stable Version
-- Consistent performance
-- Lower variance
-- Better agent cooperation
+### 1. Stable Version
+- Optimized for stability and consistent performance
+- Reward normalization with running statistics
+- Moving average performance tracking
+- Smaller network with LayerNorm (128 units)
+- Average reward: -15 to -20
 - Best reward: -7.21
 
-### Experimental Version
-- Higher learning potential
-- More exploration
-- Higher variance
-- Suitable for experimentation
+### 2. Experimental Version
+- Focused on exploration and learning capacity
+- Larger network architecture (256 units)
+- Extended training cycles
+- Higher variance in learning
+- Average reward: -20 to -25
 
 ## Key Features
 
