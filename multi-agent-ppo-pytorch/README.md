@@ -23,11 +23,18 @@ This repository contains two implementations of Multi-Agent Proximal Policy Opti
 
 | Feature | Stable | Experimental |
 |---------|--------|--------------|
-| Network Size | 128 units | 256 units |
+| Shared Network Size | 128 units | 256 units |
 | Activation | Tanh | ReLU |
-| Normalization | LayerNorm | None |
-| Batch Size | 256 | 2048 |
+| Normalization | LayerNorm | ReLU |
+| Batch Size | 256 | 64 |
 | Learning Rate | 1e-4 | 3e-4 |
+| Gamma | 0.98 | 0.99 |
+| GAE Lambda | 0.92 | 0.95 |
+| Clip Epsilon | 0.15 | 0.2 |
+| Value Coefficient | 0.8 | 0.5 |
+| Entropy Coefficient | 0.02 | 0.01 |
+| PPO Epochs | 5 | 10 |
+| Max Grad Norm | 0.3 | 0.5 |
 
 ## Hyperparameters
 
