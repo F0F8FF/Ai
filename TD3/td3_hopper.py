@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -102,11 +102,11 @@ class TD3:
         device: torch.device,
         discount: float = 0.99,
         tau: float = 0.005,
-        policy_noise: float = 0.1,
-        noise_clip: float = 0.25,
+        policy_noise: float = 0.2,
+        noise_clip: float = 0.5,
         policy_freq: int = 2,
         lr: float = 3e-4,
-        hidden_dim: int = 400
+        hidden_dim: int = 256
     ):
         self.device = device
         self.discount = discount
@@ -115,6 +115,7 @@ class TD3:
         self.noise_clip = noise_clip
         self.policy_freq = policy_freq
         self.max_action = max_action
+        self.batch_size = 100
         
         self.actor = Actor(state_dim, action_dim, max_action, hidden_dim).to(device)
         self.actor_target = Actor(state_dim, action_dim, max_action, hidden_dim).to(device)
@@ -171,7 +172,7 @@ class TD3:
         critic_loss.backward()
         self.critic_optimizer.step()
         
-        actor_loss = 0.0  # float으로 초기화
+        actor_loss = 0.0
         
         # Delayed policy updates
         if self.total_it % self.policy_freq == 0:
@@ -190,7 +191,7 @@ class TD3:
             for param, target_param in zip(self.actor.parameters(), self.actor_target.parameters()):
                 target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
             
-            actor_loss = actor_loss.item()  # tensor에서 float로 변환
+            actor_loss = actor_loss.item()
         
         return actor_loss, critic_loss.item()
 
@@ -205,21 +206,29 @@ def train_td3(env_name: str, episodes: int = 1000, evaluate: bool = True):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     agent = TD3(state_dim, action_dim, max_action, device)
     
+    # Minimum steps before training
+    min_steps_before_training = 5000
+    total_steps = 0
+    
     rewards_history = []
     eval_rewards_history = []
     actor_losses = []
     critic_losses = []
     
-    if env_name == "Pendulum-v1":
-        reward_scale = 0.05
-        eval_noise = 0.05
+    if env_name == "Hopper-v4":
+        reward_scale = 1.0
+        eval_noise = 0.0
         initial_noise = 0.3
-        final_noise = 0.1
+        final_noise = 0.05
+        min_noise = 0.01
+        noise_decay = 0.9999
     else:
         reward_scale = 1.0
         eval_noise = 0.0
         initial_noise = 0.2
         final_noise = 0.1
+        min_noise = 0.01
+        noise_decay = 0.9999
     
     for episode in range(episodes):
         # Noise annealing
@@ -229,40 +238,45 @@ def train_td3(env_name: str, episodes: int = 1000, evaluate: bool = True):
         episode_reward = 0
         episode_actor_loss = 0
         episode_critic_loss = 0
-        steps = 0
+        episode_steps = 0
         
         while True:
-            action = agent.select_action(state, noise=current_noise)  # 점진적으로 감소하는 noise
+            if total_steps < min_steps_before_training:
+                action = env.action_space.sample()
+            else:
+                action = agent.select_action(state, noise=current_noise)
+            
             next_state, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
             
-            reward = reward * reward_scale  # reward scaling 적용
+            reward = reward * reward_scale
             agent.replay_buffer.push(state, action, reward, next_state, done)
             
-            if len(agent.replay_buffer) > 256:
-                actor_loss, critic_loss = agent.train()
-                episode_actor_loss += actor_loss  # 이미 float이므로 그대로 사용
+            if total_steps >= min_steps_before_training:
+                actor_loss, critic_loss = agent.train(batch_size=256)
+                episode_actor_loss += actor_loss
                 episode_critic_loss += critic_loss
             
             state = next_state
             episode_reward += reward
-            steps += 1
+            episode_steps += 1
+            total_steps += 1
             
             if done:
                 break
         
         rewards_history.append(episode_reward)
         
-        if steps > 0:
-            actor_losses.append(episode_actor_loss / steps)
-            critic_losses.append(episode_critic_loss / steps)
+        if episode_steps > 0:
+            actor_losses.append(episode_actor_loss / episode_steps)
+            critic_losses.append(episode_critic_loss / episode_steps)
         
         # Evaluation
         if evaluate and episode % 10 == 0:
             eval_reward = 0
             state = eval_env.reset()[0]
             while True:
-                action = agent.select_action(state, noise=eval_noise)  # No noise for evaluation
+                action = agent.select_action(state, noise=eval_noise)
                 next_state, reward, terminated, truncated, _ = eval_env.step(action)
                 done = terminated or truncated
                 eval_reward += reward
@@ -305,8 +319,8 @@ def plot_training_results(rewards: List[float], eval_rewards: List[float],
 if __name__ == "__main__":
     set_seed(42)
     
-    env_name = "Pendulum-v1"
-    episodes = 200
+    env_name = "Hopper-v4"
+    episodes = 1000
     
     print(f"\nTraining on {env_name}")
     rewards, eval_rewards, actor_losses, critic_losses = train_td3(
